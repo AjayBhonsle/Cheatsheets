@@ -1,0 +1,394 @@
+{
+ "cells": [
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "id": "36b29e6e-3ff0-49f4-9519-38f843f3170f",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "x = 10                  # Integer\n",
+    "y = 4.5                 # Float\n",
+    "msg = \"hello\"           # String"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "id": "8220d3f1-8279-4931-a860-6a34033a2a9a",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "--- 1. SCALARS ---\n",
+      "Integer x: 10\n",
+      "Float y: 4.5\n",
+      "String msg: hello\n"
+     ]
+    }
+   ],
+   "source": [
+    "print(\"--- 1. SCALARS ---\")\n",
+    "print(\"Integer x:\", x)\n",
+    "print(\"Float y:\", y)\n",
+    "print(\"String msg:\", msg)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 4,
+   "id": "373d69ba-de23-4cfb-9ac6-8a82999e7989",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Updated x (+5): 15\n",
+      "Updated msg (upper): HELLO\n"
+     ]
+    }
+   ],
+   "source": [
+    "x += 5\n",
+    "msg = msg.upper()\n",
+    "print(\"Updated x (+5):\", x)\n",
+    "print(\"Updated msg (upper):\", msg)\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "60e7a2d9-ffe5-45a8-ac54-1c984d910ee6",
+   "metadata": {},
+   "source": [
+    "# LISTS (CRUD & CORE OPERATIONS)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 10,
+   "id": "c314037b-3552-4a35-a972-52b32680a960",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "\n",
+      "--- 2. LISTS (CRUD) ---\n",
+      "Initial list: [4, 2, 8, 1, 5]\n",
+      "First element: 4\n",
+      "Last element: 5\n",
+      "Sliced list [1:4]: [2, 8, 1]\n"
+     ]
+    }
+   ],
+   "source": [
+    "nums = [4, 2, 8, 1, 5]\n",
+    "print(\"\\n--- 2. LISTS (CRUD) ---\")\n",
+    "print(\"Initial list:\", nums)\n",
+    "\n",
+    "# READ\n",
+    "print(\"First element:\", nums[0])\n",
+    "print(\"Last element:\", nums[-1])\n",
+    "print(\"Sliced list [1:4]:\", nums[1:4])\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 11,
+   "id": "9b78b242-146d-4845-9a66-92f83d372b6b",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "After append(10): [4, 2, 8, 1, 5, 10]\n",
+      "After insert(1, 99): [4, 99, 2, 8, 1, 5, 10]\n"
+     ]
+    }
+   ],
+   "source": [
+    "# APPEND / INSERT\n",
+    "nums.append(10)\n",
+    "print(\"After append(10):\", nums)\n",
+    "nums.insert(1, 99)\n",
+    "print(\"After insert(1, 99):\", nums)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 12,
+   "id": "da37668b-4aa3-4444-8393-977deb8c6041",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "[4, 99, 2, 8, 1, 5, 10]\n",
+      "After pop() (removed value: 10 ): [4, 99, 2, 8, 1, 5]\n",
+      "After remove(99): [4, 2, 8, 1, 5]\n",
+      "After del nums[0]: [2, 8, 1, 5]\n"
+     ]
+    }
+   ],
+   "source": [
+    "# DELETE\n",
+    "print(nums)\n",
+    "popped = nums.pop()\n",
+    "print(\"After pop() (removed value:\", popped, \"):\", nums)\n",
+    "nums.remove(99)\n",
+    "print(\"After remove(99):\", nums)\n",
+    "del nums[0]\n",
+    "print(\"After del nums[0]:\", nums)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 13,
+   "id": "9a286894-9cf2-47a8-a8d8-ed731e9a8fa7",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Shallow copy: [2, 8, 1, 5]\n"
+     ]
+    }
+   ],
+   "source": [
+    "# COPY\n",
+    "nums_copy = nums.copy()\n",
+    "print(\"Shallow copy:\", nums_copy)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 15,
+   "id": "7c98d8e7-0b60-42f9-83e7-7ad676ba1b13",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Filtered list (x > 3): [8, 5]\n"
+     ]
+    }
+   ],
+   "source": [
+    "# FILTER\n",
+    "filtered = [x for x in nums if x > 3]\n",
+    "print(\"Filtered list (x > 3):\", filtered)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 16,
+   "id": "bf99885b-dfc5-49bc-909a-9b444bb12d7d",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "After sort(): [1, 2, 5, 8]\n",
+      "After reverse(): [8, 5, 2, 1]\n"
+     ]
+    }
+   ],
+   "source": [
+    "# REARRANGE\n",
+    "nums.sort()\n",
+    "print(\"After sort():\", nums)\n",
+    "nums.reverse()\n",
+    "print(\"After reverse():\", nums)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "beb60db8-a7a4-4e43-83ce-a6387ca75d11",
+   "metadata": {},
+   "source": [
+    "# LIST AGGREGATIONS & STATISTICS (WITHOUT MODULES)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 17,
+   "id": "bbbb2790-cea7-4f28-b9aa-d370f088081d",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "\n",
+      "--- 3. STATISTICS (WITHOUT MODULES) ---\n",
+      "Data: [4, 2, 3, 1, 5, 5]\n",
+      "Count: 6\n",
+      "Sum: 20\n",
+      "Average/Mean: 3.33\n",
+      "Minimum: 1\n",
+      "Maximum: 5\n"
+     ]
+    }
+   ],
+   "source": [
+    "data = [4, 2, 3, 1, 5, 5]\n",
+    "print(\"\\n--- 3. STATISTICS (WITHOUT MODULES) ---\")\n",
+    "print(\"Data:\", data)\n",
+    "\n",
+    "# BASIC AGGREGATIONS\n",
+    "total_count = len(data)\n",
+    "total_sum = sum(data)\n",
+    "average = total_sum / total_count\n",
+    "min_val = min(data)\n",
+    "max_val = max(data)\n",
+    "\n",
+    "print(\"Count:\", total_count)\n",
+    "print(\"Sum:\", total_sum)\n",
+    "print(\"Average/Mean:\", round(average, 2))\n",
+    "print(\"Minimum:\", min_val)\n",
+    "print(\"Maximum:\", max_val)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 18,
+   "id": "8835d526-d226-4050-a756-a97fdb6fa477",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Median: 3.5\n"
+     ]
+    }
+   ],
+   "source": [
+    "# MEDIAN LOGIC\n",
+    "sorted_data = sorted(data)\n",
+    "mid = total_count // 2\n",
+    "if total_count % 2 == 0:\n",
+    "    median_val = (sorted_data[mid - 1] + sorted_data[mid]) / 2\n",
+    "else:\n",
+    "    median_val = sorted_data[mid]\n",
+    "print(\"Median:\", median_val)\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 19,
+   "id": "dc54ef6c-74ff-4a7d-95ae-4083ba7843af",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Mode: 5\n"
+     ]
+    }
+   ],
+   "source": [
+    "# MODE LOGIC\n",
+    "counts = {}\n",
+    "for val in data:\n",
+    "    counts[val] = counts.get(val, 0) + 1\n",
+    "mode_val = max(counts, key=counts.get)\n",
+    "print(\"Mode:\", mode_val)\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 20,
+   "id": "4b9a728e-d2c3-4ad7-b087-6ab49009afc5",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Variance: 2.67\n",
+      "Standard Deviation: 1.63\n"
+     ]
+    }
+   ],
+   "source": [
+    "# VARIANCE & STANDARD DEVIATION LOGIC\n",
+    "mean_val = average\n",
+    "variance_val = sum((val - mean_val) ** 2 for val in data) / (total_count - 1)\n",
+    "stdev_val = variance_val ** 0.5\n",
+    "print(\"Variance:\", round(variance_val, 2))\n",
+    "print(\"Standard Deviation:\", round(stdev_val, 2))\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "820b8e36-2b35-40ef-aa0f-2a74f98086ba",
+   "metadata": {},
+   "source": [
+    "# LIST AGGREGATIONS & STATISTICS (WITH BUILT-IN MODULE)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 21,
+   "id": "94c69396-32eb-431e-8a84-cf9aff1a8c72",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "\n",
+      "--- 4. STATISTICS (WITH MODULE) ---\n",
+      "statistics.mean(): 3.33\n",
+      "statistics.median(): 3.5\n",
+      "statistics.mode(): 5\n",
+      "statistics.variance(): 2.67\n",
+      "statistics.stdev(): 1.63\n"
+     ]
+    }
+   ],
+   "source": [
+    "import statistics\n",
+    "\n",
+    "print(\"\\n--- 4. STATISTICS (WITH MODULE) ---\")\n",
+    "print(\"statistics.mean():\", round(statistics.mean(data), 2))\n",
+    "print(\"statistics.median():\", statistics.median(data))\n",
+    "print(\"statistics.mode():\", statistics.mode(data))\n",
+    "print(\"statistics.variance():\", round(statistics.variance(data), 2))\n",
+    "print(\"statistics.stdev():\", round(statistics.stdev(data), 2))"
+   ]
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3 (ipykernel)",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.12.1"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 5
+}
