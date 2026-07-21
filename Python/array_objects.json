@@ -1,0 +1,28 @@
+[
+    {
+        "emp_id": 101,
+        "name": "Alex",
+        "department": "Data Engineering",
+        "location": {
+            "city": "Pune",
+            "country": "India"
+        },
+        "skills": [
+            "Python",
+            "SQL"
+        ]
+    },
+    {
+        "emp_id": 102,
+        "name": "Sam",
+        "department": "Analytics",
+        "location": {
+            "city": "Ahmedabad",
+            "country": "India"
+        },
+        "skills": [
+            "Tableau",
+            "dbt"
+        ]
+    }
+]

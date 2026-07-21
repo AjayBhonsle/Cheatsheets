@@ -1,0 +1,14 @@
+{
+    "emp_id": 101,
+    "name": "Alex",
+    "department": "Data Engineering",
+    "location": {
+        "city": "Pune",
+        "country": "India"
+    },
+    "skills": [
+        "Python",
+        "SQL",
+        "Snowflake"
+    ]
+}
