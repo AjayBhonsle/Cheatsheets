@@ -52,6 +52,4 @@
 | **`GEOMETRY`** | Flat, Euclidean (X, Y) Cartesian plane. | CAD drawings, game maps, indoor mapping, localized planar spatial analysis. |
 | **`VECTOR`** | Array of floating-point numbers (128 to 4096 dimensions). | **Cortex Search / AI / LLM embeddings**. Used for similarity searches (`VECTOR_COSINE_SIMILARITY`). |
 | **`BOOLEAN`** | `TRUE`, `FALSE`, or `NULL`. | Flags, active status, soft deletes. |
-| **`BINARY`** | Raw binary data up to 16 MB. | Storing small files, images, or encrypted binary payloads. |
-snowflake_datatypes_cheatsheet.md
-Displaying snowflake_datatypes_cheatsheet.md.
+| **`BINARY`** | Raw binary data up to 16 MB. | Storing small files, images, or encrypted binary payloads.
