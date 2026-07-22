@@ -79,7 +79,7 @@ print("\n--> 3. ADDING COLUMNS")
 print("[Formula/Operation Standard]: df['new_col'] = df['col1'] * scale OR df.assign(new_col=...)")
 print("[Formula/Operation Actual  ]: df_pd_add['bonus'] = df_pd_add['salary'] * 0.2")
 print("[Pandas BEFORE]: Columns before addition:", list(df_pd.columns))
-df_pd_add = df_pd.copy()
+df_pd_add = df_pd.copy() #deepcopy
 df_pd_add["bonus"] = df_pd_add["salary"] * 0.2
 df_pd_add = df_pd_add.assign(tax=df_pd_add["salary"] * 0.1)
 print("[Pandas AFTER]: New columns appended:\n", df_pd_add[["id", "bonus", "tax"]].head(5))
@@ -118,7 +118,9 @@ print("[Formula/Operation Standard]: df.groupby('col1').agg(new_name=('col2', 'f
 print("[Formula/Operation Actual  ]: df_pd.groupby('dept').agg(avg_sal=('salary', 'mean'), max_sal=('salary', 'max')).reset_index()")
 print("[Pandas BEFORE]: Granular raw metrics tracking matrix:\n", df_pd[["dept", "salary"]])
 df_pd_agg1 = df_pd.groupby("dept")["salary"].agg(["mean", "max"]).reset_index()
-df_pd_agg2 = df_pd.groupby("dept").agg(avg_sal=("salary", "mean"), max_sal=("salary", "max")).reset_index()
+df_pd_agg2 = df_pd.groupby("dept").agg(
+        avg_sal=("salary", "mean"),
+        max_sal=("salary", "max")).reset_index()
 print("[Pandas AFTER]: Rolled-up metric summary records:\n", df_pd_agg2)
 
 
