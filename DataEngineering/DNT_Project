@@ -1,0 +1,250 @@
+
+Tony - has a second hand 
+SETP BY STEP Action 
+
+*************************************** Business Discovery
+- understand their pain point, and define what success looks like
+
+clarify three core things:
+    The Goal: What business decision will this data help them make?
+    The Data Source: Where does this data live today (e.g., Excel sheets, CRM, app logs)?
+    The Rules: What are the business logic and definitions (e.g., "What exactly defines an 'active customer' or a 'completed order'?")?
+
+
+*****
+
+*****
+
+
+*************************************** Raw Data Analysis (Data Discovery)
+- Quick Data Discovery step (Snowflake, CSV, etc)
+Entities: What real-world "things" are in this data?
+    Example: Parts, Customers, Orders.
+Relationships: How do these "things" connect to each other?
+    Example: "Customer A placed Order #101 for Engine Part X."
+Data Quality & Fixes: Is anything messy or confusing?
+    Timezones: Are dates in UTC, PST, or local time? We must standardize them so Tony sees accurate sales dates.
+    Formatting: Are text values uppercase in some rows and lowercase in others?
+    Missing/Null values: Are there orders without customer IDs?
+Normalisation: Is information split cleanly into tables, or is it all dumped into one giant, messy spreadsheet?
+
+
+-- High-Level Blueprint
+
+[ Raw Snowflake Data ] 
+       │
+       ▼
+[ Staging Layer ] ─── (Clean & rename columns)
+       │
+       ▼
+[ Snapshots Layer ] ── (Track part price history over time)
+       │
+       ▼
+[ Marts / Business Layer ] ── (Apply logic: daily sales, customer spend)
+       │
+       ▼
+[ Analytics / Reporting ] ── (Tony's final dashboard)
+
+
+*************************************** Project Architecture Setup (Local Workspace)
+
+my_dbt_project/
+├── .vscode/                               # Local VSCode settings
+│   └── settings.json
+├── .gitignore                             # Ignores target/ and local profiles
+├── README.md                              # Setup instructions
+├── dbt_project.yml                        # Core project configuration
+├── packages.yml                           # dbt-utils package
+├── profiles.yml                           # Snowflake connection profiles
+├── macros/                                # Reusable Jinja macros
+│   └── generate_schema_name.sql           # Schema routing (dev vs prod)
+├── seeds/                                 # Small reference CSV files
+└── models/                                # TRANSFORMATION LAYERS
+    ├── staging/                           # LAYER 1: Raw Sources & Clean Cleanup
+    │   └── tpch/                          # SNOWFLAKE_SAMPLE_DATA source folder
+    │       ├── src_tpch.yml               # Declares PART, ORDERS, CUSTOMER, LINEITEM
+    │       ├── stg_tpch__customers.sql
+    │       ├── stg_tpch__orders.sql
+    │       ├── stg_tpch__lineitem.sql
+    │       └── stg_tpch__part.sql
+    ├── intermediate/                      # LAYER 2: Joins & Aggregations
+    │   ├── int_order_items.sql            # Joins orders + lineitems
+    │   └── int_customer_orders.sql        # Aggregates orders per customer
+    └── marts/                             # LAYER 3: Business & Observability Models
+        ├── core/                          # Production Business Models
+        │   ├── dim_customers.sql
+        │   └── fct_orders.sql
+        └── observability/                 # Pipeline Health Models
+            └── fct_pipeline_health_daily.sql
+
+
+*************** Set up project folder & Python environment
+# Navigate to where you want your project to live
+mkdir my_dbt_project
+cd my_dbt_project
+
+# Create and activate Python virtual environment
+python -m venv venv
+venv\Scripts\activate
+
+# Install dbt for Snowflake
+pip install dbt-snowflake
+
+*************** Initialize dbt & Create Essential Files
+dbt init .
+
+{
+dbt init .
+Enter a name for your project (letters, digits, underscore): dbt_pipeline_health
+16:30:03  Setting up your profile.
+Which database would you like to use?
+[1] snowflake
+Enter a number: 1
+account (https://<this_value>.snowflakecomputing.com): HLUZCZT-MTB44757
+user (dev username): DBT_USER
+[1] password
+[2] keypair
+[3] sso
+[4] workload_identity
+Desired authentication type option (enter a number): 1
+password (dev password): 
+role (dev role): DBT_ROLE
+warehouse (warehouse name): DBT_WH
+database (default database that dbt will build objects in): TRANSFORM_DB
+schema (default schema that dbt will build objects in): DBT_DEV
+threads (1 or more) [1]: 4
+16:35:50  Profile dbt_pipeline_health written to C:\Users\ajayb\.dbt\profiles.yml using target's profile_template.yml and your supplied values.
+16:35:50  Running dbt debug to validate the project...
+16:35:50  dbt version: 1.12.0
+16:35:50  python version: 3.12.1
+16:35:50  python path: C:\Users\ajayb\OneDrive\Documents\VS_Code\Git\DBT\venv\Scripts\python.exe
+16:35:50  os info: Windows-10-10.0.19045-SP0
+16:35:51  Using profiles dir at C:\Users\ajayb\.dbt
+16:35:51  Using profiles.yml file at C:\Users\ajayb\.dbt\profiles.yml
+16:35:51  Using dbt_project.yml file at C:\Users\ajayb\OneDrive\Documents\VS_Code\Git\DBT\dbt_pipeline_health\dbt_project.yml
+16:35:51  adapter type: snowflake
+16:35:51  adapter version: 1.12.0
+16:35:51  Configuration:
+16:35:51    profiles.yml file [OK found and valid]
+16:35:51    dbt_project.yml file [OK found and valid]
+16:35:51  Required dependencies:
+16:35:51   - git [OK found]
+
+16:35:51  Connection:
+16:35:51    account: HLUZCZT-MTB44757
+16:35:51    user: DBT_USER
+16:35:51    database: TRANSFORM_DB
+16:35:51    warehouse: DBT_WH
+16:35:51    role: DBT_ROLE
+16:35:51    schema: DBT_DEV
+16:35:51    authenticator: None
+16:35:51    oauth_client_id: None
+16:35:51    query_tag: None
+16:35:51    client_session_keep_alive: False
+16:35:51    host: None
+16:35:51    port: None
+16:35:51    proxy_host: None
+16:35:51    proxy_port: None
+16:35:51    protocol: None
+16:35:51    connect_retries: 1
+16:35:51    connect_timeout: None
+16:35:51    retry_on_database_errors: False
+16:35:51    retry_all: False
+16:35:51    insecure_mode: False
+16:35:51    reuse_connections: True
+16:35:51    s3_stage_vpce_dns_name: None
+16:35:51    workload_identity_provider: None
+16:35:51    workload_identity_entra_resource: None
+16:35:51    platform_detection_timeout_seconds: 0.0
+16:35:51  Registered adapter: snowflake=1.12.0
+16:35:55    Connection test: [OK connection ok]
+
+16:35:55  All checks passed!
+16:35:55  Your new dbt project "dbt_pipeline_health" was created!
+Initialized new project in C:\Users\ajayb\OneDrive\Documents\VS_Code\Git\DBT\dbt_pipeline_health\dbt_pipeline_health
+
+For more information on how to configure the profiles.yml file,
+please consult the dbt documentation here:
+
+  https://docs.getdbt.com/docs/configure-your-profile
+
+One more thing:
+
+Need help? Don't hesitate to reach out to us via GitHub issues or on Slack:
+
+  https://community.getdbt.com/
+
+Happy modeling!
+
+}
+
+
+-- create .gitignore outside of dbt project folder
+#.gitignore
+venv/
+target/
+dbt_packages/
+logs/
+profiles.yml
+.env
+
+*************** Initialize Git & Push to remote repo
+-- Initialize Git locally
+git init
+
+-- Connect to your newly created online repo (paste your URL here)
+git remote add origin https://github.com/AjayBhonsle/snowflake-dbt-pipeline-health
+
+-- Save your current files locally
+git add .
+git commit -m "Initial dbt project setup"
+
+-- Upload your local files to your remote repo
+git branch -M main
+git push -u origin main --force
+
+##write all steps to handle conflict and push and all
+
+
+*************** Configure profiles.yml & run dbt debug
+
+
+
+*************** RAW schema and Log table as source
+-- snowflake 
+
+
+*************** 
+
+*************** 
+
+*************** 
+
+
+----------------- Extra
+
+-- Some dbt commands can trigger from terminal
+Usage: dbt.exe [OPTIONS] <COMMAND>
+  init           Initialize a new dbt project
+  deps           Install package dependencies
+  parse          Parse models
+  list           List selected nodes
+  ls             List selected nodes (alias for list)
+  compile        Compile models
+  run            Run models
+  run-operation  Run the named macro with any supplied arguments
+  test           Test models
+  seed           Seed models
+  snapshot       Run snapshot models
+  show           Show a preview of the selected nodes
+  build          Build seeds, models and tests
+  clean          Remove target directories
+  source         Run sources subcommands
+  clone          Create clones of selected nodes
+  system         dbt installation configuration
+  man            Create reference documentation
+  debug          Profile connection debugging
+  retry          Retry failed nodes from the previous run
+  pull           Pull and materialize input data from remote warehouse
+  sl             Semantic Layer commands
+  help           Print this message or the help of the given subcommand(s)
